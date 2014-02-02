@@ -6,6 +6,8 @@ $fp = fopen($file.'.csv', 'w');
 $meps= json_decode (file_get_contents($file.'.json'));
 $out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','phone','office','committee','delegation');
 
+fputcsv($fp, $out);
+
 foreach ($meps as $mep){
 //if (!$mep->Constituencies[0]->end) {
 if (!$mep->active) {

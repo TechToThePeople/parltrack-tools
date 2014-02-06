@@ -14,4 +14,4 @@ Love data, put them in good hands and go out campaining
 csvtool
 ----------
 
- csvtool col 1,2,3,5-7 ep_meps_current.csv >
+csvtool col 1,2,3,5,6-8 ep_meps_current.csv > meps.csv

@@ -4,7 +4,7 @@ $file = "ep_meps_current";
 $fp = fopen($file.'.csv', 'w');
 
 $meps= json_decode (file_get_contents($file.'.json'));
-$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','phone','office','committee','delegation');
+$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','office','committee','delegation');
 
 fputcsv($fp, $out);
 
@@ -24,6 +24,7 @@ $out = array (
   substr($mep->Birth->date,0,10),
   $mep->Gender,
   $mep->Groups[0]->groupid);
+  $out[]=$mep->Constituencies[0]->party;
   if (isset($mep->Addresses) && isset ($mep->Addresses->Brussels)) {
     $out[] = $mep->Addresses->Brussels->Phone;
     $out[] = $mep->Addresses->Brussels->Address->Office;

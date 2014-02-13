@@ -25,6 +25,7 @@ $out = array (
   $mep->Gender,
   $mep->Groups[0]->groupid);
   $out[]=$mep->Constituencies[0]->party;
+print_r($mep);die ("toto");
   if (isset($mep->Addresses) && isset ($mep->Addresses->Brussels)) {
     $out[] = $mep->Addresses->Brussels->Phone;
     $out[] = $mep->Addresses->Brussels->Address->Office;

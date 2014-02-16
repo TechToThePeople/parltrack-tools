@@ -1,5 +1,10 @@
 <?php
 $file = "ep_meps_current";
+$counties = array();
+$tt = json_decode (file_get_contents ("./countries.json"));
+foreach ($tt as $t) {
+  $countries [$t->name] = $t->iso_code;
+}
 
 $fp = fopen($file.'.csv', 'w');
 
@@ -17,7 +22,7 @@ if (!$mep->active) {
 //print_r($mep);
 $out = array (
   $mep->UserID,
-  $mep->Constituencies[0]->country,
+  $countries[$mep->Constituencies[0]->country],
   $mep->Name->sur,
   $mep->Name->family,
   $mep->Mail[0],
@@ -25,7 +30,7 @@ $out = array (
   $mep->Gender,
   $mep->Groups[0]->groupid);
   $out[]=$mep->Constituencies[0]->party;
-print_r($mep);die ("toto");
+//print_r($mep);die ("toto");
   if (isset($mep->Addresses) && isset ($mep->Addresses->Brussels)) {
     $out[] = $mep->Addresses->Brussels->Phone;
     $out[] = $mep->Addresses->Brussels->Address->Office;

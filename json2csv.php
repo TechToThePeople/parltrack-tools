@@ -20,6 +20,9 @@ if (!$mep->active) {
   continue;
 }
 //print_r($mep);
+  if (is_array ($mep->Groups[0]->groupid)) {
+    $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
+  }
 $out = array (
   $mep->UserID,
   $countries[$mep->Constituencies[0]->country],

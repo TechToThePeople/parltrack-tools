@@ -4,6 +4,7 @@ $counties = array();
 $tt = json_decode (file_get_contents ("./countries.json"));
 foreach ($tt as $t) {
   $countries [$t->name] = $t->iso_code;
+  $countrySum [ $t->iso_code] = 0;
 }
 
 $fp = fopen($file.'.csv', 'w');
@@ -20,9 +21,8 @@ if (!$mep->active) {
   continue;
 }
 //print_r($mep);
-  if (is_array ($mep->Groups[0]->groupid)) {
-    $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
-  }
+if (!isset ($mep->Mail)) 
+  $mep->Mail = [""];
 $out = array (
   $mep->UserID,
   //$countries[$mep->Constituencies[0]->country],
@@ -31,9 +31,14 @@ $out = array (
   $mep->Name->family,
   $mep->Mail[0],
   date("d/m/Y",strtotime(substr($mep->Birth->date,0,10))),
-  $mep->Gender,
-  $mep->Groups[0]->groupid);
-$out[]=$mep->Constituencies[0]->party;
+  $mep->Gender);
+  if (isset( $mep->Groups)) {
+    if (is_array ($mep->Groups[0]->groupid)) {
+      $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
+    }
+    $out[]=$mep->Groups[0]->groupid;
+  }
+  $out[]=$mep->Constituencies[0]->party;
   if (isset($mep->Addresses) && isset ($mep->Addresses->Brussels)) {
     $out[] = $mep->Addresses->Brussels->Phone;
     $out[] = $mep->Addresses->Brussels->Address->Office;
@@ -66,8 +71,11 @@ if (isset($mep->Twitter)){
 }
 
 }
+$countrySum[ $countries[$out[1]]] += 1;
 fputcsv($fp, $out);
 
 }
 
 fclose ($fp);
+
+print_r ($countrySum);

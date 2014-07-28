@@ -10,17 +10,19 @@ foreach ($tt as $t) {
 $fp = fopen($file.'.csv', 'w');
 
 $meps= json_decode (file_get_contents($file.'.json'));
-$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','office','committee','delegation', 'twitter');
+$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','office','committee','substitute','delegation', 'twitter');
 
 fputcsv($fp, $out);
 
 foreach ($meps as $mep){
-//if (!$mep->Constituencies[0]->end) {
 if (!$mep->active) {
   echo "\nskip ". $mep->Name->full;
   continue;
 }
-//print_r($mep);
+if (!isset( $mep->Birth)) {
+  echo "\npotential skip ghost ". $mep->Name->full;
+//  continue;
+}
 if (!isset ($mep->Mail)) 
   $mep->Mail = [""];
 $out = array (
@@ -50,12 +52,23 @@ $out = array (
     $out[6] = implode('/',$out[6]);
 if (isset($mep->Committees)) {
   $com = array();
+  $sub = array();
   foreach ($mep->Committees as $c) {
-    $com [] = $c->abbr;
+    if ($c->end != "9999-12-31T00:00:00") {
+      continue;
+    }
+    if ($c->role == "Substitute") {
+      $sub [] = $c->abbr;
+    } else {
+      $com [] = $c->abbr;
+    }
   }
   $out[] = implode(',',$com);
-} else 
+  $out[] = implode(',',$sub);
+} else {
   $out [] = '';
+  $out [] = '';
+}
 if (isset($mep->Delegations)){
   $del = array();
   foreach ($mep->Delegations as $d) {

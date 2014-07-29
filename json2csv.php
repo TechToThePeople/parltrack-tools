@@ -16,6 +16,7 @@ $out=array ('epid','country','first_name','last_name','email','birthdate','gende
 fputcsv($fp, $out);
 
 foreach ($meps as $mep){
+
 if (!$mep->active) {
   echo "\nskip ". $mep->Name->full;
   continue;
@@ -73,18 +74,24 @@ if (isset($mep->Committees)) {
 if (isset($mep->Delegations)){
   $del = array();
   foreach ($mep->Delegations as $d) {
-    $del [] = $d->abbr;
+    if ($d->end != "9999-12-31T00:00:00") {
+      continue;
+    }
+    if (!empty($d->abbr)){
+      $del [] = $d->abbr;
+    } else {
+      $del [] = $d->Organization;
+    }
   }
   $out[] = implode(',',$del);
 } else {
   $out [] = '';
-if (isset($mep->Twitter)){
+}if (property_exists($mep,"Twitter") && is_array($mep->Twitter)){
   $out [] = $mep->Twitter[0];
 }else {
   $out [] = '';
 }
 
-}
 $countrySum[ $countries[$out[1]]] += 1;
 $sum +=1;
 fputcsv($fp, $out);

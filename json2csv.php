@@ -80,7 +80,7 @@ if (isset($mep->Delegations)){
     if (!empty($d->abbr)){
       $del [] = $d->abbr;
     } else {
-      $del [] = $d->Organization;
+      $del [] = str_replace (array ("Delegation for relations with the ","Delegation to the "),array ("",""),$d->Organization);
     }
   }
   $out[] = implode(',',$del);

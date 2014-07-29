@@ -15,3 +15,16 @@ csvtool
 ----------
 
 csvtool col 1,2,3,4,6-9 ep_meps_current.csv
+
+Some stuff to analyse from the command line 
+------------------
+check for duplicates
+
+csvtool col 4,3,1,2,8 ep_meps_current.csv | sort | uniq -c -d
+
+count from a country
+csvtool col 4,3,1,2,8 ep_meps_current.csv | sort | ag "Germany," | wc 
+count from a country and a group
+csvtool col 4,3,1,2,8 ep_meps_current.csv | sort | ag "Germany," | ag ",S&D" | wc
+
+remove the wc to get the list (sorted by last name, like on the europarl website)

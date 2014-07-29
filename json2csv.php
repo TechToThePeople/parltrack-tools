@@ -1,6 +1,7 @@
 <?php
 $file = "ep_meps_current";
-$counties = array();
+$countries = array();
+$sum = 0;
 $tt = json_decode (file_get_contents ("./countries.json"));
 foreach ($tt as $t) {
   $countries [$t->name] = $t->iso_code;
@@ -20,7 +21,7 @@ if (!$mep->active) {
   continue;
 }
 if (!isset( $mep->Birth)) {
-  echo "\npotential skip ghost ". $mep->Name->full;
+//  echo "\npotential skip ghost ". $mep->Name->full;
 //  continue;
 }
 if (!isset ($mep->Mail)) 
@@ -85,10 +86,13 @@ if (isset($mep->Twitter)){
 
 }
 $countrySum[ $countries[$out[1]]] += 1;
+$sum +=1;
 fputcsv($fp, $out);
 
 }
+print_r($countrySum);
+
+echo "\nMEPs found $sum\n";
 
 fclose ($fp);
 
-print_r ($countrySum);

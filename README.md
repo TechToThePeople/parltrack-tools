@@ -11,6 +11,12 @@ See a problem or want more columns? Pull Requests welcome and all that jazz.
 
 Love data, put them in good hands and go out campaining
 
+simpler json
+------------
+if you simply want to deal with active meps and remove all the change log
+jq "map(select(.active) | del(.changes))" ep_meps_current.json > ep_mep_active.json
+
+
 csvtool
 ----------
 

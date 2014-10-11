@@ -2,6 +2,10 @@ As requested at the hackathon, small scripts I have lying around parltrack
 
 Standing on giants shoulders.
 
+update from parltrack
+---------------
+curl http://parltrack.euwiki.org/dumps/ep_meps_current.json.xz | xz -cd > ep_meps_current.json
+
 json2csv.php
 -------------
 

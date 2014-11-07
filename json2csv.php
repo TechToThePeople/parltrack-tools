@@ -93,7 +93,7 @@ if (isset($mep->Delegations)){
 }else {
   $out [] = '';
 }
-$out[]= "mep_tttp_". $mep->UserID,
+$out[]= "mep_tttp_". $mep->UserID;
 
 $countrySum[ $countries[$out[1]]] += 1;
 $sum +=1;

@@ -11,7 +11,7 @@ foreach ($tt as $t) {
 $fp = fopen($file.'.csv', 'w');
 
 $meps= json_decode (file_get_contents($file.'.json'));
-$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','office','committee','substitute','delegation', 'twitter');
+$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','building','office','committee','substitute','delegation', 'twitter','tttpid');
 
 fputcsv($fp, $out);
 
@@ -45,8 +45,10 @@ $out = array (
   $out[]=$mep->Constituencies[0]->party;
   if (isset($mep->Addresses) && isset ($mep->Addresses->Brussels)) {
     $out[] = $mep->Addresses->Brussels->Phone;
+    $out[] = $mep->Addresses->Brussels->Address->Building;
     $out[] = $mep->Addresses->Brussels->Address->Office;
   } else {
+   $out[]= null;
    $out[]= null;
    $out[]= null;
   }
@@ -91,6 +93,7 @@ if (isset($mep->Delegations)){
 }else {
   $out [] = '';
 }
+$out[]= "mep_tttp_". $mep->UserID;
 
 $countrySum[ $countries[$out[1]]] += 1;
 $sum +=1;

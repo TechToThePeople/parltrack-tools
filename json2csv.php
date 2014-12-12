@@ -1,5 +1,6 @@
 <?php
-$file = "ep_meps_current";
+//$file = "ep_meps_current";
+$file = "ep_mep_active";
 $countries = array();
 $sum = 0;
 $tt = json_decode (file_get_contents ("./countries.json"));
@@ -16,7 +17,6 @@ $out=array ('epid','country','first_name','last_name','email','birthdate','gende
 fputcsv($fp, $out);
 
 foreach ($meps as $mep){
-
 if (!$mep->active) {
   echo "\nskip ". $mep->Name->full;
   continue;

@@ -17,6 +17,7 @@ $out=array ('epid','country','first_name','last_name','email','birthdate','gende
 fputcsv($fp, $out);
 
 foreach ($meps as $mep){
+
 if (!$mep->active) {
   echo "\nskip ". $mep->Name->full;
   continue;
@@ -27,6 +28,17 @@ if (!isset( $mep->Birth)) {
 }
 if (!isset ($mep->Mail)) 
   $mep->Mail = [""];
+
+if (isset($mep->Birth))
+  $bday = strtotime(substr($mep->Birth->date,0,10));
+else 
+  $bday="";
+
+if (isset($mep->Gender))
+  $gender=$mep->Gender;
+else
+  $gender="";
+
 $out = array (
   $mep->UserID,
   //$countries[$mep->Constituencies[0]->country],
@@ -34,8 +46,8 @@ $out = array (
   $mep->Name->sur,
   $mep->Name->family,
   $mep->Mail[0],
-  date("d/m/Y",strtotime(substr($mep->Birth->date,0,10))),
-  $mep->Gender);
+  $bday,
+  $gender);
   if (isset( $mep->Groups)) {
     if (is_array ($mep->Groups[0]->groupid)) {
       $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
@@ -89,7 +101,7 @@ if (isset($mep->Delegations)){
 } else {
   $out [] = '';
 }if (property_exists($mep,"Twitter") && is_array($mep->Twitter)){
-  $out [] = $mep->Twitter[0];
+  $out [] = trim($mep->Twitter[0]);
 }else {
   $out [] = '';
 }
@@ -98,6 +110,7 @@ $out[]= "mep_tttp_". $mep->UserID;
 $countrySum[ $countries[$out[1]]] += 1;
 $sum +=1;
 fputcsv($fp, $out);
+if ($mep->UserID==96730) {echo "sven";}
 
 }
 print_r($countrySum);

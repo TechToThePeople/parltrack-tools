@@ -30,7 +30,8 @@ if (!isset ($mep->Mail))
   $mep->Mail = [""];
 
 if (isset($mep->Birth))
-  $bday = strtotime(substr($mep->Birth->date,0,10));
+  //bday = strtotime(substr($mep->Birth->date,0,10));
+  $bday = substr($mep->Birth->date,0,10);
 else 
   $bday="";
 

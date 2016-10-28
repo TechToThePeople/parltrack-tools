@@ -9,3 +9,6 @@ cat ep_meps_current.json | fgrep '"active": true' |  jq -c 'del(.changes)' | { e
 nice -n19 php json2csv.php
 git commit -am "update `date`"
 git push
+
+#nice -n19 jq ".[] | {id:.UserID,name:.Name.full,assistants:.assistants}|[.]" ep_mep_active.json > providers.json 
+

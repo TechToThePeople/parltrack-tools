@@ -49,12 +49,11 @@ $out = array (
   $mep->Mail[0],
   $bday,
   $gender);
-if (isset( $mep->Groups)) {
-	 $mep->since="9999-99-99";
-	  foreach ($mep->Groups as $g) {
-		  $g->start
-		  print_r($g); die ("toto");
-    }	    
+  if (isset( $mep->Groups)) {
+	 $since="9999-99-99";
+	 foreach ($mep->Groups as $g) {
+           if ($since > $g->start) $since=substr($g->start,0,10);	
+	 }   
     if (is_array ($mep->Groups[0]->groupid)) {
       $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
     }
@@ -112,6 +111,7 @@ if (isset($mep->Delegations)){
   $out [] = '';
 }
 $out[]= "mep_tttp_". $mep->UserID;
+$out[]= $since;
 
 $countrySum[ $countries[$out[1]]] += 1;
 $sum +=1;

@@ -12,7 +12,7 @@ foreach ($tt as $t) {
 $fp = fopen($file.'.csv', 'w');
 
 $meps= json_decode (file_get_contents($file.'.json'));
-$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','building','office','committee','substitute','delegation', 'twitter','tttpid');
+$out=array ('epid','country','first_name','last_name','email','birthdate','gender','eugroup','party','phone','building','office','committee','substitute','delegation', 'twitter','tttpid','since');
 
 fputcsv($fp, $out);
 
@@ -49,7 +49,12 @@ $out = array (
   $mep->Mail[0],
   $bday,
   $gender);
-  if (isset( $mep->Groups)) {
+if (isset( $mep->Groups)) {
+	 $mep->since="9999-99-99";
+	  foreach ($mep->Groups as $g) {
+		  $g->start
+		  print_r($g); die ("toto");
+    }	    
     if (is_array ($mep->Groups[0]->groupid)) {
       $mep->Groups[0]->groupid = implode ("/",$mep->Groups[0]->groupid);
     }

@@ -84,8 +84,10 @@ if (isset($mep->Committees)) {
       $com [] = $c->abbr;
     }
   }
-  $out[] = implode(',',$com);
-  $out[] = implode(',',$sub);
+  //$out[] = str_replace (",","",implode(' ',$com));
+  //$out[] = str_replace (",","",implode(' ',$sub));
+  $out[] = implode(' ',$com);
+  $out[] = implode(' ',$sub);
 } else {
   $out [] = '';
   $out [] = '';
